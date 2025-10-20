@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - master  # change to main if your default branch is main
+      - master  # change to main if your branch is main
 
 jobs:
   build:
