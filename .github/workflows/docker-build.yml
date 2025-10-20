@@ -20,6 +20,11 @@ jobs:
       - name: Build WAR
         run: mvn -B clean package -DskipTests
 
+      - name: Debug WAR location
+        run: |
+          echo "Listing all WARs in repo"
+          find . -name "*.war"
+
       - name: Debug WAR file
         run: ls -R target
 
