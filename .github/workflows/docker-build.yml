@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - master  # change to master if needed
+      - master  # change to main if needed
 
 jobs:
   build:
@@ -25,18 +25,22 @@ jobs:
       - name: Build WAR
         run: mvn -B clean package -DskipTests
 
-      # 4️⃣ Set up Docker Buildx
+      # 4️⃣ Debug: list files
+      - name: List files for debugging
+        run: ls -R
+
+      # 5️⃣ Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 5️⃣ Login to Docker Hub
+      # 6️⃣ Login to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 6️⃣ Build & Push Docker Image
+      # 7️⃣ Build & Push Docker Image
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
