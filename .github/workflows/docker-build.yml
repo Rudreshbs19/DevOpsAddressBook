@@ -3,39 +3,40 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - master  # or 'master' if your repo uses that
+      - master  # change to master if needed
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 👇 Step 1: Set up Java for Maven
+      # 2️⃣ Set up Java (for Maven)
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 👇 Step 2: Install Maven and build WAR
-      - name: Build WAR using Maven
-        run: mvn clean package -DskipTests
+      # 3️⃣ Build WAR using Maven
+      - name: Build WAR
+        run: mvn -B clean package -DskipTests
 
-      # 👇 Step 3: Set up Docker builder
+      # 4️⃣ Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 👇 Step 4: Login to Docker Hub
+      # 5️⃣ Login to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 👇 Step 5: Build & Push Docker image
+      # 6️⃣ Build & Push Docker Image
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
